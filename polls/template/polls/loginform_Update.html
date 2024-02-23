@@ -1,0 +1,71 @@
+{% extends 'polls/index.html' %}
+{% block content %}
+<br /><br />
+<div class="row">
+  <div class="col-sm-6 offset-3">
+    <div id="msg" class="alert alert-success text-center" style="display: none;"></div>
+    <h4 class="alert alert-info">Update Student</h4>
+
+    <form id="updateForm" data-id="{{ form.id }}" method="post">
+      {% csrf_token %}
+      <input type="hidden" name="id" id="id" value="{{ form.id }}">
+      <label for="Name">Name:</label>
+      <input type="text" name="name" id="name" class="form-control" value="{{ form.name }}" />
+      <br />
+      <label for="email">Email: </label>
+      <input type="email" id="email" name="email" class="form-control" value="{{ form.email }}" />
+      <br />
+      <label for="password">Password:</label>
+      <input type="password" id="passw" name="password" class="form-control" value="{{ form.password }}" />
+      <br />
+
+      <!-- Your form fields here -->
+      <input type="submit" class="btn btn-success" value="Update" />
+      <a href="{% url 'Home' %}" class="btn btn-info">Back </a>
+    </form>
+
+  </div>
+</div>
+<script>
+
+  $("#updateForm").submit(function (e) {
+    e.preventDefault(); // Prevent form submission
+    let id = $("#id").val();
+    let csr = $("input[name='csrfmiddlewaretoken']").val();
+
+    let name = $("#name").val();
+    let email = $("#email").val();
+    let password = $("#passw").val();
+
+    $.ajax({
+      url: "/students/Update/" + id + "/",
+      method: "POST",
+      data: {
+        name: name,
+        email: email,
+        password: password,
+        csrfmiddlewaretoken: csr
+      },
+      success: function (data) {
+
+        if (data.status == "Save") {
+          $("#msg").text("Update Data!!");
+          $("#msg").show();
+          console.log(data.stusent_data);
+        }
+
+        // Show success message
+        else {
+          console.log("Failed to update data");
+        }
+      },
+      // error: function () {
+      //   alert("Failed to update data");
+      // }
+    });
+
+  });
+
+
+</script>
+{% endblock content %}

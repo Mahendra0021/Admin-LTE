@@ -1,0 +1,117 @@
+<!-- myapp/templates/item_list.html -->
+
+{% extends 'polls/index.html' %} {% block content %}
+
+<div class="wrapper">
+  <!-- Navbar -->
+
+  <!-- Main Sidebar Container -->
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-7">
+            <h1>Student Information Table</h1>
+          </div>
+        </div>
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-11">
+            <!-- /.card -->
+
+            <div class="card" style="background-color: blanchedalmond;">
+              <div class="card-header">
+                <h3 class="card-title"><b> All Student information</b></h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table id="table" class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>
+                        User Name
+                      </th>
+                      <th>
+                         Email Address
+                      </th>
+                      <th>
+                        Password
+                      </th>
+                      <th>
+                       Student-Update-Data
+                      </th>
+                      <th>
+                        Student-Data-Delete
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {% for item in object_list %}
+                    <tr>
+
+                      <td>
+                        <b> {{ item.name }}
+                        </b>
+                      </td>
+                      <td> <b>{{ item.email }} </b></td>
+                      <td> <b>{{ item.password }} </b></td>
+                      <td>
+                        <a href="Student-Update/{{item.id}}">
+                          <b><i class="fa-sharp fa-solid fa-pen"></i> </b> </a>
+                      </td>
+                      <td>
+                        <a href="#deleteStudentModel" class="delete" data-toggle="modal"> <b><i
+                              class="fa-solid fa-trash"></i> </b></a>
+                      </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                      <td colspan="7" style="text-align: center">
+                        No Student Available
+                      </td>
+                    </tr>
+                    {% endfor %}
+                    <!-- Delete Model Html -->
+                    {% for i in object_list %}
+                    <div id="deleteStudentModel" class="modal fade" tabindex="-1">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Student Data Dalete</h5>
+                            <a href="{% url 'student_list'%}" class="btn-close" data-bs-dismiss="modal"
+                              aria-label="Close"></a>
+                          </div>
+                          <div class="modal-body">
+                            <p>
+                            <h6 style="color: red;"> <b> {{i.name}}</b></h6>Confirm Information Delete</p>
+                          </div>
+                          <div class="modal-footer">
+                            <a href="{% url 'student_list'%}" class="btn btn-secondary"> Close</a>
+                            <a href="Student-Dalete/{{ i.id }}" class="btn btn-danger"> Delete</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    </section>
+  </div>
+</div>
+
+{% endblock content %}
